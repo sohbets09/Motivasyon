@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #000;
+            color: #eee;
+            transition: background 0.5s, color 0.5s;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        h1 {
+            margin-top: 20px;
+            font-size: 2rem;
+            text-align: center;
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+        }
+
+        .next-button {
+            margin: 555px;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 2rem;
+            cursor: pointer;
+            background: #00ffff;
+            color: #000;
+            box-shadow: 0 0 10px #00ffff;
+            transition: 0.3s;
+        }
+
+        .next-button:hover {
+            transform: scale(1.05);
+            background: #00cccc;
+        }
+
+        .gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+
+.gallery img {
+    width: 200px;
+    height: auto;
+    border-radius: 8px;
+    transition: transform 0.3s;
+    cursor: pointer;
+}
+
+.gallery img:hover {
+    transform: scale(1.1);
+}
+
+#lightbox {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+}
+
+#lightbox img {
+    max-width: 90%;
+    max-height: 90%;
+}
+
+.photo-btn-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.photo-btn {
+    background: #00cccc;
+    color: rgb(0, 0, 0);
+    border: none;
+    padding: 12px 20px;
+    font-size: 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.photo-btn:hover {
+    background: #00cccc;
+}
+    </style>
+</head>
+
+<body>
+    <h1>MetaFlow Motive sözler</h1>
+    <section id="photo-gallery">
+        <div class="gallery">
+            <img src="data:image/jpeg;base64,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" alt="Fotoğraf 1" onclick="openImage(this)">
+            <img src="png/imagesaaaaaaaaa.jpg" alt="Fotoğraf 2" onclick="openImage(this)">
+            <img src="png/images.jpg" alt="Fotoğraf 3" onclick="openImage(this)">
+
+            <div class="photo-btn-container">
+                <button class="photo-btn" onclick="redirectToWebsite()">🔗 Web Sitesine Gitm Başla</button>
+            </div>
+        
+        </div>
+    
+        <div id="lightbox" onclick="closeImage()">
+            <img id="lightbox-img" src="" alt="Büyütülmüş Fotoğraf">
+        </div>
+    </section>
+
+    <script>
+        function openImage(imgElement) {
+    let lightbox = document.getElementById("lightbox");
+    let lightboxImg = document.getElementById("lightbox-img");
+
+    lightboxImg.src = imgElement.src;
+    lightbox.style.display = "flex";
+}
+
+function closeImage() {
+    document.getElementById("lightbox").style.display = "none";
+}
+
+function redirectToWebsite() {
+    window.location.href = "surpriz.html"; // Buraya hedef siteyi ekleyin
+}
+    </script>
+</body>
+
+</html>
