@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="tk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MetaFlow - Motivasion Sözleri</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #000;
+      color: #eee;
+      transition: background 0.5s, color 0.5s;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header {
+      width: 100%;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #00ffff;
+      text-shadow: 0 0 10px #00ffff;
+    }
+    .settings-toggle {
+      padding: 10px 16px;
+      background: #00ffff;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 0 10px #00ffff;
+    }
+    .settings {
+      position: absolute;
+      top: 70px;
+      right: 20px;
+      background: rgba(0, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #00ffff;
+      display: none;
+      z-index: 999;
+    }
+    .theme-button, .lang-button {
+      display: block;
+      margin: 6px 0;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      width: 180px;
+    }
+    .theme-girl { background: #ffc0cb; color: #000; }
+    .theme-boy { background: #007acc; color: #fff; }
+    .theme-simple { background: #333; color: #eee; }
+    .lang-tk { background: #00cc99; color: #000; }
+    .lang-tr { background: #ff6600; color: #fff; }
+    .lang-en { background: #3399ff; color: #fff; }
+    .lang-ru { background: #9933cc; color: #fff; }
+
+    h1 {
+      margin-top: 20px;
+      font-size: 2rem;
+      text-align: center;
+      text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+    }
+    .quote-box {
+      margin: 20px;
+      padding: 25px;
+      border: 3px solid #00ffff;
+      border-radius: 15px;
+      max-width: 80%;
+      font-size: 1.5rem;
+      background-color: rgba(0, 255, 255, 0.05);
+      backdrop-filter: blur(5px);
+      animation: dropFade 0.6s ease-out;
+      box-shadow: 0 0 20px #00ffff, 0 0 30px #00ffff;
+      text-align: center;
+    }
+    @keyframes dropFade {
+      from { opacity: 0; transform: translateY(-50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .next-button {
+      margin: 10px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      cursor: pointer;
+      background: #00ffff;
+      color: #000;
+      box-shadow: 0 0 10px #00ffff;
+      transition: 0.3s;
+    }
+    .next-button:hover {
+      transform: scale(1.05);
+      background: #00cccc;
+    }
+
+    footer {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 20px;
+    }
+    .social-icon {
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      filter: drop-shadow(0 0 6px #00ffff);
+      transition: transform 0.3s;
+    }
+    .social-icon:hover {
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">MetaFlow</div>
+    <button class="settings-toggle" onclick="toggleSettings()">⚙️ Sazlamalar</button>
+  </header>
+
+  <div class="settings" id="settingsPanel">
+    <button class="theme-button theme-girl" onclick="setTheme('girl')">Gyzlar üçin tema</button>
+    <button class="theme-button theme-boy" onclick="setTheme('boy')">Oglanlar üçin tema</button>
+    <button class="theme-button theme-simple" onclick="setTheme('simple')">Ýönekeý tema</button>
+    <hr>
+    <button class="lang-button lang-tk" onclick="setLanguage('tk')">Türkmençe</button>
+    <button class="lang-button lang-tr" onclick="setLanguage('tr')">Türkçe</button>
+    <button class="lang-button lang-en" onclick="setLanguage('en')">English</button>
+    <button class="lang-button lang-ru" onclick="setLanguage('ru')">Русский</button>
+  </div>
+
+  <h1 id="title">Motivasion Sözleri</h1>
+  <div class="quote-box" id="quoteBox">Başlamak üçin ajaýyp bolmagyň geregi ýok.</div>
+  <button class="next-button" onclick="nextQuote()" id="nextBtn">Indiki sözi üýtget</button>
+
+  <footer>
+    <a href="https://www.instagram.com/sohbets09?igsh=MWIzMzY5c2NibWY5cQ==" target="_blank">
+      <img src="png/Instagram.jpg" class="social-icon" alt="Instagram">
+    </a>
+    <a href="https://www.tiktok.com/@sohbets_09?_t=ZS-8wjxbw0Dujo&_r=1" target="_blank">
+      <img src="png/tiktok.png" class="social-icon" alt="TikTok">
+    </a>
+  </footer>
+
+  <script>
+    const quotes = {
+      tk: [
+        "Başlamak üçin ajaýyp bolmagyň geregi ýok.",
+        "Hiç wagt giç däl.",
+        "Sen başararsyň!",
+        "Yhlas edýän, maksadyna ýetýär.",
+        "Umydyňy ýitirme, ýol dowam edýär.",
+        "Gorkma, başla!",
+        "Her gün täze mümkinçilikdir."
+      ],
+      tr: [
+        "Başlamak için harika olman gerekmez.",
+        "Asla geç değil.",
+        "Başarabilirsin!",
+        "Çalışan kazanır.",
+        "Umut varsa yol vardır.",
+        "Korkma, başla!",
+        "Her gün yeni bir fırsattır."
+      ],
+      en: [
+        "You don’t have to be great to start.",
+        "It’s never too late.",
+        "You can do it!",
+        "Hard work pays off.",
+        "Don’t give up. Keep going.",
+        "Start before you’re ready.",
+        "Every day is a new opportunity."
+      ],
+      ru: [
+        "Не обязательно быть великим, чтобы начать.",
+        "Никогда не поздно.",
+        "Ты справишься!",
+        "Труд приносит плоды.",
+        "Не сдавайся, продолжай.",
+        "Начни, даже если страшно.",
+        "Каждый день — новый шанс."
+      ]
+    };
+
+    let current = 0;
+    let currentLang = 'tk';
+
+    function nextQuote() {
+      current = (current + 1) % quotes[currentLang].length;
+      const box = document.getElementById("quoteBox");
+      box.textContent = quotes[currentLang][current];
+      box.classList.remove("quote-box");
+      void box.offsetWidth;
+      box.classList.add("quote-box");
+    }
+
+    function setTheme(type) {
+      const body = document.body;
+      if (type === 'girl') {
+        body.style.background = '#ffe6f0';
+        body.style.color = '#000';
+      } else if (type === 'boy') {
+        body.style.background = '#001f3f';
+        body.style.color = '#fff';
+      } else {
+        body.style.background = '#000';
+        body.style.color = '#eee';
+      }
+    }
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      current = 0;
+      document.getElementById("quoteBox").textContent = quotes[lang][current];
+      const titleMap = {
+        tk: "Motivasion Sözleri",
+        tr: "Motivasyon Sözleri",
+        en: "Motivational Quotes",
+        ru: "Мотивационные Цитаты"
+      };
+      const btnMap = {
+        tk: "Indiki sözi üýtget",
+        tr: "Sonraki sözü değiştir",
+        en: "Next quote",
+        ru: "Следующая цитата"
+      };
+      document.getElementById("title").textContent = titleMap[lang];
+      document.getElementById("nextBtn").textContent = btnMap[lang];
+    }
+
+    function toggleSettings() {
+      const panel = document.getElementById("settingsPanel");
+      panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+    }
+  </script>
+</body>
+</html>
