@@ -1,78 +1,298 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tk">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MetaFlow Giriş</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MetaFlow - Motivasion Sözleri</title>
   <style>
-    body {
+    /* Base Styles */
+    * {
+      box-sizing: border-box;
       margin: 0;
-      background-color: black;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: white;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0a0a0a, #1a1a1a, #0a0a0a);
+      color: #e0e0e0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: 120px;
+      position: relative;
+    }
+
+    /* Header */
+    header {
+      width: 100%;
+      padding: 20px 40px;
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      text-align: center;
-      padding: 20px;
+      background: rgba(0, 0, 0, 0.4);
+      box-shadow: 0 4px 20px rgba(0, 255, 255, 0.2);
+      z-index: 1000;
+      position: fixed;
+      top: 0;
+      left: 0;
+      animation: slideDownHeader 0.7s ease-out forwards;
     }
 
-    .container {
-      max-width: 500px;
-      width: 100%;
+    @keyframes slideDownHeader {
+      from {
+        transform: translateY(-100%);
+      }
+      to {
+        transform: translateY(0);
+      }
     }
 
-    .title {
-      font-size: 2em;
-      margin-bottom: 20px;
-      color: #00f7ff;
-      text-shadow: 0 0 10px #00f7ff;
+    .logo {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #00ffff;
+      text-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff;
+      animation: pulseNeon 2s infinite alternate;
     }
 
+    @keyframes pulseNeon {
+      0%,
+      100% {
+        text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+      }
+      50% {
+        text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff, 0 0 60px #00ffff;
+      }
+    }
+
+    /* Image Gallery */
     .image-gallery {
       display: flex;
       flex-direction: column;
-      gap: 15px;
-      margin-bottom: 30px;
+      gap: 20px;
+      margin-top: 40px;
+      margin-bottom: 40px;
+      max-width: 400px;
+      width: 90%;
     }
 
     .image-gallery img {
       width: 100%;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,255,255,0.4);
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      animation: fadeInScale 0.8s ease-out forwards; /* No delay, so it appears quickly */
     }
 
+    @keyframes fadeInScale {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .image-gallery img:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+    }
+
+    /* Start Button */
     .start-button {
-      display: inline-block;
-      background-color: #00d9ff;
-      color: white;
-      padding: 15px 25px;
-      border-radius: 10px;
-      font-size: 16px;
-      text-decoration: none;
-      box-shadow: 0 0 10px #00f7ff;
-      transition: background-color 0.3s;
+      margin-top: 40px;
+      margin-bottom: 40px;
+      padding: 18px 35px;
+      border: none;
+      border-radius: 40px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      background: #00ffff;
+      color: #0a0a0a;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      position: relative;
+      overflow: hidden;
+      animation: pulseButton 2.5s infinite alternate, fadeIn 0.8s ease-out forwards; /* Added fadeIn for prompt appearance */
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulseButton {
+      0%,
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+      }
+      50% {
+        transform: scale(1.03);
+        box-shadow: 0 0 30px rgba(0, 255, 255, 0.9);
+      }
     }
 
     .start-button:hover {
-      background-color: #00b7dd;
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.95);
+      background: #00e6e6;
+    }
+
+    .start-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      transition: all 0.4s ease-in-out;
+    }
+
+    .start-button:hover::before {
+      left: 110%;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: auto;
+      margin-bottom: 30px;
+      display: flex;
+      gap: 30px;
+      z-index: 1;
+      animation: fadeIn 1s ease-out 0.5s forwards; /* Adjusted animation for quicker appearance */
+    }
+
+    .social-icon {
+      width: 48px;
+      height: 48px;
+      cursor: pointer;
+      filter: drop-shadow(0 0 10px #00ffff);
+      transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out, opacity 0.3s ease-in-out;
+      opacity: 0.8;
+    }
+
+    .social-icon:hover {
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 15px #00ffff);
+      opacity: 1;
+    }
+
+    /* Utility */
+    a {
+      text-decoration: none;
+      color: inherit; /* Inherit color from parent button */
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      body {
+        padding-top: 90px;
+      }
+
+      header {
+        padding: 15px 25px;
+      }
+
+      .logo {
+        font-size: 2rem;
+      }
+
+      .image-gallery {
+        margin-top: 30px;
+        margin-bottom: 30px;
+        gap: 15px;
+      }
+
+      .start-button {
+        padding: 16px 30px;
+        font-size: 1.1rem;
+        margin-top: 30px;
+      }
+
+      footer {
+        gap: 25px;
+        margin-bottom: 25px;
+      }
+
+      .social-icon {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding-top: 80px;
+      }
+
+      header {
+        padding: 10px 15px;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+      }
+
+      .image-gallery {
+        margin-top: 25px;
+        margin-bottom: 25px;
+        gap: 10px;
+        max-width: 90%;
+      }
+
+      .start-button {
+        padding: 14px 28px;
+        font-size: 1rem;
+        margin-top: 25px;
+      }
+
+      footer {
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+
+      .social-icon {
+        width: 35px;
+        height: 35px;
+      }
     }
   </style>
 </head>
+
 <body>
-  <div class="container">
-    <h1 class="title">MetaFlow Motive sözler</h1>
+  <header>
+    <div class="logo">MetaFlow</div>
+  </header>
 
-    <div class="image-gallery">
-      <img src="png/logo.jpg" alt="Motivasyon 1">
-      <img src="png/motivasyon 1.jpg" alt="Motivasyon 2">
-      <img src="png/motivasyon 2.jpg" alt="Motivasyon 3">
-    </div>
-
-    <a href="surpriz.html" class="start-button">
-      🔗Başla
-    </a>
+  <div class="image-gallery">
+    <img src="png/logo.jpg" alt="MetaFlow Logo">
   </div>
+
+  <button class="start-button"><a href="surpriz.html">Başla</a></button>
+
+  <footer>
+    <a href="https://www.instagram.com/sohbets09?igsh=MWIzMzY5c2NibWY5cQ==" target="_blank">
+      <img src="png/Instagram.jpg" class="social-icon" alt="Instagram">
+    </a>
+    <a href="https://www.tiktok.com/@sohbets_09?_t=ZS-8wjxbw0Dujo&_r=1" target="_blank">
+      <img src="png/tiktok.png" class="social-icon" alt="TikTok">
+    </a>
+  </footer>
 </body>
+
 </html>
