@@ -10,124 +10,434 @@
       margin: 0;
       padding: 0;
     }
+
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: #000;
-      color: #eee;
-      transition: background 0.5s, color 0.5s;
+      background: linear-gradient(135deg, #0a0a0a, #1a1a1a, #0a0a0a);
+      color: #e0e0e0;
+      transition: background 1.5s ease-in-out, color 0.5s ease-in-out; 
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-start; 
+      overflow-x: hidden;
+      padding-top: 120px;
+      position: relative;
     }
+
+    body::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: inherit;
+        transition: opacity 1.5s ease-in-out;
+        z-index: -1;
+    }
+
     header {
       width: 100%;
-      padding: 20px;
+      padding: 20px 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      background: rgba(0, 0, 0, 0.4);
+      box-shadow: 0 4px 20px rgba(0, 255, 255, 0.2); 
+      z-index: 1000;
+      position: fixed; 
+      top: 0;
+      left: 0;
+      animation: slideDownHeader 0.7s ease-out forwards; 
+      transform: translateY(-100%);
     }
+
+    @keyframes slideDownHeader {
+      to { transform: translateY(0); }
+    }
+
     .logo {
-      font-size: 1.8rem;
+      font-size: 2.5rem; 
       font-weight: bold;
       color: #00ffff;
-      text-shadow: 0 0 10px #00ffff;
+      text-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff;
+      animation: pulseNeon 2s infinite alternate; 
     }
+
+    @keyframes pulseNeon {
+      0%, 100% { text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff; }
+      50% { text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff, 0 0 60px #00ffff; }
+    }
+
     .settings-toggle {
-      padding: 10px 16px;
+      padding: 14px 25px;
       background: #00ffff;
-      color: #000;
+      color: #0a0a0a;
       border: none;
-      border-radius: 8px;
+      border-radius: 35px;
       cursor: pointer;
-      box-shadow: 0 0 10px #00ffff;
+      font-size: 1.1rem;
+      font-weight: bold;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.8); 
+      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; 
+      position: relative;
+      overflow: hidden;
+      animation: fadeInButton 1s ease-out 0.5s forwards;
+      opacity: 0;
+      transform: scale(0.8);
     }
+
+    @keyframes fadeInButton {
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .settings-toggle:hover {
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.95);
+      background: #00e6e6;
+    }
+
+    .settings-toggle::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      transition: all 0.4s ease-in-out;
+    }
+
+    .settings-toggle:hover::before {
+      left: 110%;
+    }
+
     .settings {
       position: absolute;
-      top: 70px;
-      right: 20px;
-      background: rgba(0, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      padding: 15px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px #00ffff;
+      top: 100px; 
+      right: 40px;
+      background: rgba(0, 0, 0, 0.7); 
+      backdrop-filter: blur(20px); 
+      padding: 25px; 
+      border-radius: 18px;
+      box-shadow: 0 0 25px rgba(0, 255, 255, 0.6);
       display: none;
       z-index: 999;
+      animation: fadeInOut 0.4s ease-in-out forwards; 
     }
-    .theme-button, .lang-button {
-      display: block;
-      margin: 6px 0;
-      padding: 8px 16px;
-      border: none;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      cursor: pointer;
-      width: 180px;
-    }
-    .theme-girl { background: #ffc0cb; color: #000; }
-    .theme-boy { background: #007acc; color: #fff; }
-    .theme-simple { background: #333; color: #eee; }
-    .lang-tk { background: #00cc99; color: #000; }
-    .lang-tr { background: #ff6600; color: #fff; }
-    .lang-en { background: #3399ff; color: #fff; }
-    .lang-ru { background: #9933cc; color: #fff; }
 
-    h1 {
-      margin-top: 20px;
-      font-size: 2rem;
-      text-align: center;
-      text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
-    }
-    .quote-box {
-      margin: 20px;
-      padding: 25px;
-      border: 3px solid #00ffff;
-      border-radius: 15px;
-      max-width: 80%;
-      font-size: 1.5rem;
-      background-color: rgba(0, 255, 255, 0.05);
-      backdrop-filter: blur(5px);
-      animation: dropFade 0.6s ease-out;
-      box-shadow: 0 0 20px #00ffff, 0 0 30px #00ffff;
-      text-align: center;
-    }
-    @keyframes dropFade {
-      from { opacity: 0; transform: translateY(-50px); }
+    @keyframes fadeInOut {
+      from { opacity: 0; transform: translateY(-10px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .next-button {
-      margin: 10px;
-      padding: 12px 24px;
+    .settings.hidden {
+      animation: fadeOut 0.3s ease-in-out forwards;
+    }
+
+    @keyframes fadeOut {
+      from { opacity: 1; transform: translateY(0); }
+      to { opacity: 0; transform: translateY(-10px); }
+    }
+
+
+    .theme-button, .lang-button {
+      display: block;
+      margin: 10px 0; 
+      padding: 12px 22px;
       border: none;
-      border-radius: 12px;
-      font-size: 1rem;
+      border-radius: 30px;
+      font-size: 1.05rem;
+      cursor: pointer;
+      width: 220px; 
+      text-align: center;
+      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      font-weight: 600;
+      animation: slideInSettings 0.5s ease-out forwards; 
+      transform: translateX(-20px);
+      opacity: 0;
+    }
+
+    .settings.hidden .theme-button,
+    .settings.hidden .lang-button {
+      animation: slideOutSettings 0.3s ease-in-out forwards;
+    }
+
+    @keyframes slideInSettings {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes slideOutSettings {
+      from { opacity: 1; transform: translateX(0); }
+      to { opacity: 0; transform: translateX(-20px); }
+    }
+
+    .theme-button:hover, .lang-button:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    }
+
+    .theme-girl { background: linear-gradient(to bottom right, #ff7f9e, #f7b9d7); color: #3a000d; box-shadow: 0 0 15px rgba(255, 127, 158, 0.7); }
+    .theme-boy { background: linear-gradient(to bottom right, #00bfff, #87cefa); color: #001f3f; box-shadow: 0 0 15px rgba(0, 191, 255, 0.7); }
+    .theme-simple { background: linear-gradient(to bottom right, #444, #777); color: #eee; box-shadow: 0 0 15px rgba(68, 68, 68, 0.7); }
+
+    .lang-tk { background: linear-gradient(to bottom right, #00cc99, #66ffcc); color: #000; box-shadow: 0 0 15px rgba(0, 204, 153, 0.7); }
+    .lang-tr { background: linear-gradient(to bottom right, #ff6600, #ffb366); color: #fff; box-shadow: 0 0 15px rgba(255, 102, 0, 0.7); }
+    .lang-en { background: linear-gradient(to bottom right, #3399ff, #99ccff); color: #fff; box-shadow: 0 0 15px rgba(51, 153, 255, 0.7); }
+    .lang-ru { background: linear-gradient(to bottom right, #9933cc, #cc99ff); color: #fff; box-shadow: 0 0 15px rgba(153, 51, 204, 0.7); }
+
+    hr {
+      border: 0;
+      height: 2px; 
+      background-image: linear-gradient(to right, rgba(0, 255, 255, 0.2), rgba(0, 255, 255, 0.8), rgba(0, 255, 255, 0.2));
+      margin: 20px 0; 
+      animation: fadeInLine 1s ease-out 1s forwards; 
+      opacity: 0;
+    }
+
+    @keyframes fadeInLine {
+      to { opacity: 1; }
+    }
+
+    h1 {
+      margin-top: 160px; 
+      font-size: 3.5rem;
+      text-align: center;
+      text-shadow: 0 0 25px #00ffff, 0 0 40px #00ffff;
+      letter-spacing: 3px;
+      animation: fadeInUp 1s ease-out 0.2s forwards, neonGlow 2s infinite alternate;
+      opacity: 0;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes neonGlow {
+      from { text-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff; }
+      to { text-shadow: 0 0 25px #00ffff, 0 0 50px #00ffff, 0 0 70px #00ffff; }
+    }
+
+    /* Quote Box */
+    .quote-box {
+      margin: 80px auto; 
+      padding: 35px; 
+      border: 4px solid #00ffff; 
+      border-radius: 25px; 
+      max-width: 75%; 
+      min-height: 150px; 
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem; 
+      font-weight: 600;
+      text-align: center;
+      background-color: rgba(0, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      animation: scaleUp 1s ease-out 0.7s forwards, glow 2.5s infinite alternate, fadeInQuote 1s ease-out 1.2s forwards; 
+      box-shadow: 0 0 40px rgba(0, 255, 255, 0.7), 0 0 60px rgba(0, 255, 255, 0.5);
+      line-height: 1.5;
+      position: relative;
+      opacity: 0;
+      transform: scale(0.9);
+    }
+
+    @keyframes fadeInQuote {
+      to { opacity: 1; }
+    }
+
+    @keyframes scaleUp {
+      from { opacity: 0.8; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes glow {
+      from { box-shadow: 0 0 30px rgba(0, 255, 255, 0.7), 0 0 50px rgba(0, 255, 255, 0.5); }
+      to { box-shadow: 0 0 40px rgba(0, 255, 255, 0.9), 0 0 65px rgba(0, 255, 255, 0.7); }
+    }
+
+    .next-button {
+      margin-top: 60px; 
+      margin-bottom: 40px;
+      padding: 18px 35px; 
+      border: none;
+      border-radius: 40px;
+      font-size: 1.2rem;
+      font-weight: bold;
       cursor: pointer;
       background: #00ffff;
-      color: #000;
-      box-shadow: 0 0 10px #00ffff;
-      transition: 0.3s;
+      color: #0a0a0a;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.8); 
+      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      position: relative;
+      overflow: hidden;
+      animation: pulseButton 2.5s infinite alternate, fadeInUpButton 1s ease-out 1.4s forwards; 
+      opacity: 0;
+      transform: translateY(20px);
     }
+
+    @keyframes fadeInUpButton {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulseButton {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(0, 255, 255, 0.8); }
+      50% { transform: scale(1.03); box-shadow: 0 0 30px rgba(0, 255, 255, 0.9); }
+    }
+
     .next-button:hover {
-      transform: scale(1.05);
-      background: #00cccc;
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.95);
+      background: #00e6e6;
+    }
+
+    .next-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      transition: all 0.4s ease-in-out;
+    }
+
+    .next-button:hover::before {
+      left: 110%;
     }
 
     footer {
-      margin-bottom: 20px;
+      margin-top: auto;
+      margin-bottom: 30px;
       display: flex;
-      gap: 20px;
+      gap: 30px; 
+      z-index: 1;
+      animation: slideInBottom 1s ease-out 1.6s forwards;
+      opacity: 0;
+      transform: translateY(20px);
     }
+
+    @keyframes slideInBottom {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .social-icon {
-      width: 36px;
-      height: 36px;
+      width: 48px; 
+      height: 48px;
       cursor: pointer;
-      filter: drop-shadow(0 0 6px #00ffff);
-      transition: transform 0.3s;
+      filter: drop-shadow(0 0 10px #00ffff); 
+      transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out, opacity 0.3s ease-in-out;
+      opacity: 0.8;
     }
+
     .social-icon:hover {
       transform: scale(1.1);
+      filter: drop-shadow(0 0 15px #00ffff);
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding-top: 100px;
+      }
+      header {
+        padding: 15px 25px;
+      }
+      .logo {
+        font-size: 2rem;
+      }
+      .settings-toggle {
+        padding: 12px 20px;
+        font-size: 1rem;
+      }
+      .settings {
+        top: 80px;
+        right: 25px;
+        padding: 20px;
+        width: 200px;
+      }
+      .theme-button, .lang-button {
+        width: 100%;
+        font-size: 0.95rem;
+        padding: 10px 20px;
+      }
+      h1 {
+        font-size: 3rem;
+        margin-top: 140px;
+      }
+      .quote-box {
+        font-size: 1.6rem;
+        padding: 30px;
+        max-width: 80%;
+        min-height: 130px;
+      }
+      .next-button {
+        padding: 16px 30px;
+        font-size: 1.1rem;
+        margin-top: 55px;
+      }
+      footer {
+        gap: 25px;
+        margin-bottom: 25px;
+      }
+      .social-icon {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding-top: 90px;
+      }
+      header {
+        padding: 10px 15px;
+      }
+      .logo {
+        font-size: 1.7rem;
+      }
+      .settings-toggle {
+        padding: 10px 18px;
+        font-size: 0.9rem;
+      }
+      .settings {
+        top: 70px;
+        right: 15px;
+        width: 180px;
+        padding: 15px;
+      }
+      .theme-button, .lang-button {
+        font-size: 0.9rem;
+        padding: 9px 18px;
+      }
+      h1 {
+        font-size: 2.4rem;
+        margin-top: 120px;
+      }
+      .quote-box {
+        font-size: 1.3rem;
+        padding: 25px;
+        min-height: 110px;
+        max-width: 90%;
+      }
+      .next-button {
+        padding: 14px 28px;
+        font-size: 1rem;
+        margin-top: 50px;
+      }
+      footer {
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+      .social-icon {
+        width: 35px;
+        height: 35px;
+      }
     }
   </style>
 </head>
@@ -170,7 +480,32 @@
         "Yhlas edýän, maksadyna ýetýär.",
         "Umydyňy ýitirme, ýol dowam edýär.",
         "Gorkma, başla!",
-        "Her gün täze mümkinçilikdir."
+        "Her gün täze mümkinçilikdir.",
+        "Maksadyňyzy hiç haçan ýatdan çykarmaň.",
+        "Her bir uly ýeňiş kiçi ädimlerden başlaýar.",
+        "Durmuşda iň uly şöhrat hiç haçan ýykylmazlykda däl-de, her ýykylanda ýaňadan aýaga galmakdadyr.",
+        "Ýeňiş, iň kyn pursatda-da dowam edenlere geler.",
+        "Uly arzuw ediň, sebäbi uly arzuwlar adamlary herekete getirýär.",
+        "Uzak ýolyň ilkinji ädimini ät.",
+        "Öwrenmegi hiç wagt bes etme, sebäbi durmuş öwretmegi hiç wagt bes etmez.",
+        "Mümkin däl diýen zat ýok, diňe başgaça çözgüdi bar.",
+        "Ýeňiş isleýän bolsaň, ilki bilen özüňe ynan.",
+        "Kynçylyklar sizi saklamaga däl, eýsem güýçlendirmäge hyzmat edýär.",
+        "Çagyryşlar sizi duruzmak üçin däl, güýçlendirmek üçindir.",
+        "Her gün bir şansdyr.",
+        "Maksadyňyzdan gözüňizi aýyrmaň.",
+        "Uly işler kiçi başlangyçlardan dogýar.",
+        "Durmuşda iň uly şan-şöhrat hiç wagt ýykylmazlykda däl, gaýtam her gaçanyňda täzeden galmakdadyr.",
+        "Ýeňiş, iň çetin pursatlarda-da dowam edenlere gelýär.",
+        "Uly hyýal ediň, sebäbi uly hyýallar adamlary herekete getirýär.",
+        "Uzak ýoluň ilkinji ädimini ädiň.",
+        "Öwrenmegi hiç wagt goýmaň, sebäbi durmuş öwretmegi hiç wagt goýmaz.",
+        "Mümkin däl diýen zat ýok, diňe başgaça çözüwi bar.",
+        "Eger ýeňmek isleýän bolsaň, ilki özüňe ynan.",
+        "Kynçylyklar sizi duruzmak üçin däl, eýsem güýçlendirmek üçindir.",
+        "Her gün özüňi täzeden döret.",
+        "Maksatlaryňy yzarlamagy hiç wagt goýma.",
+        "Her bir kiçijik ädim, uly bir maksada ýakynlaşdyrýar."
       ],
       tr: [
         "Başlamak için harika olman gerekmez.",
@@ -179,7 +514,32 @@
         "Çalışan kazanır.",
         "Umut varsa yol vardır.",
         "Korkma, başla!",
-        "Her gün yeni bir fırsattır."
+        "Her gün yeni bir fırsattır.",
+        "Hedeflerinizi asla gözden kaçırmayın.",
+        "Her büyük başarı küçük adımlarla başlar.",
+        "Hayattaki en büyük zafer asla düşmemekte değil, her düştüğümüzde yeniden ayağa kalkmaktır.",
+        "Zafer, en zor anlarda bile devam edenlere gelir.",
+        "Büyük hayal kurun, çünkü büyük hayaller insanları harekete geçirir.",
+        "Uzun bir yolculuğun ilk adımını atın.",
+        "Öğrenmeyi asla bırakmayın, çünkü hayat öğretmeyi asla asla bırakmayacak.",
+        "İmkansız diye bir şey yoktur, sadece farklı bir çözüm vardır.",
+        "Kazanmak istiyorsan, önce kendine inan.",
+        "Zorluklar sizi durdurmak için değil, güçlendirmek için vardır.",
+        "Mücadeleler sizi durdurmak için değil, güçlendirmek içindir.",
+        "Her gün yeni bir şanstır.",
+        "Hedeflerinizden asla şaşmayın.",
+        "Büyük işler küçük başlangıçlardan doğar.",
+        "Hayatta en büyük zafer, asla düşmemekte değil, her düştüğünde yeniden ayağa kalkmaktır.",
+        "Zafer, en zorlu anlarda bile devam edenlere gelir.",
+        "Büyük hayaller kurun, çünkü büyük hayaller insanları harekete geçirir.",
+        "Uzun bir yolculuğun ilk adımını atın.",
+        "Öğrenmeyi asla bırakmayın, çünkü hayat öğretmeyi asla bırakmaz.",
+        "İmkansız diye bir şey yoktur, sadece farklı bir çözümü vardır.",
+        "Eğer kazanmak istiyorsan, önce kendine inan.",
+        "Zorluklar sizi durdurmak için değil, sizi güçlendirmek içindir.",
+        "Her gün kendini yeniden yarat.",
+        "Amaçlarının peşinden gitmeyi asla bırakma.",
+        "Her küçük adım, büyük bir amaca doğru ilerlemedir."
       ],
       en: [
         "You don’t have to be great to start.",
@@ -188,7 +548,32 @@
         "Hard work pays off.",
         "Don’t give up. Keep going.",
         "Start before you’re ready.",
-        "Every day is a new opportunity."
+        "Every day is a new opportunity.",
+        "Never lose sight of your goals.",
+        "Every great achievement begins with a small step.",
+        "The greatest glory in living lies not in never falling, but in rising every time we fall.",
+        "Victory comes to those who persevere, even in the toughest moments.",
+        "Dream big, because big dreams move people.",
+        "Take the first step of a long journey.",
+        "Never stop learning, for life never stops teaching.",
+        "There's no such thing as impossible, only a different solution.",
+        "If you want to win, believe in yourself first.",
+        "Challenges are not meant to stop you, but to strengthen you.",
+        "Obstacles are there to strengthen you, not to stop you.",
+        "Each day is a new chance.",
+        "Never lose sight of your objectives.",
+        "Great deeds are born from small beginnings.",
+        "The greatest glory in life is not in never falling, but in rising every time we fall.",
+        "Victory belongs to those who persist, even in the most difficult times.",
+        "Dream big, because big dreams motivate people.",
+        "Take the first step of a long journey.",
+        "Never stop learning, because life never stops teaching.",
+        "There's no such thing as impossible, only a different solution.",
+        "If you want to win, first believe in yourself.",
+        "Challenges are not meant to stop you, but to strengthen you.",
+        "Reinvent yourself every day.",
+        "Never give up on pursuing your goals.",
+        "Every small step is progress towards a big goal."
       ],
       ru: [
         "Не обязательно быть великим, чтобы начать.",
@@ -197,60 +582,16 @@
         "Труд приносит плоды.",
         "Не сдавайся, продолжай.",
         "Начни, даже если страшно.",
-        "Каждый день — новый шанс."
-      ]
-    };
-
-    let current = 0;
-    let currentLang = 'tk';
-
-    function nextQuote() {
-      current = (current + 1) % quotes[currentLang].length;
-      const box = document.getElementById("quoteBox");
-      box.textContent = quotes[currentLang][current];
-      box.classList.remove("quote-box");
-      void box.offsetWidth;
-      box.classList.add("quote-box");
-    }
-
-    function setTheme(type) {
-      const body = document.body;
-      if (type === 'girl') {
-        body.style.background = '#ffe6f0';
-        body.style.color = '#000';
-      } else if (type === 'boy') {
-        body.style.background = '#001f3f';
-        body.style.color = '#fff';
-      } else {
-        body.style.background = '#000';
-        body.style.color = '#eee';
-      }
-    }
-
-    function setLanguage(lang) {
-      currentLang = lang;
-      current = 0;
-      document.getElementById("quoteBox").textContent = quotes[lang][current];
-      const titleMap = {
-        tk: "Motivasion Sözleri",
-        tr: "Motivasyon Sözleri",
-        en: "Motivational Quotes",
-        ru: "Мотивационные Цитаты"
-      };
-      const btnMap = {
-        tk: "Indiki sözi üýtget",
-        tr: "Sonraki sözü değiştir",
-        en: "Next quote",
-        ru: "Следующая цитата"
-      };
-      document.getElementById("title").textContent = titleMap[lang];
-      document.getElementById("nextBtn").textContent = btnMap[lang];
-    }
-
-    function toggleSettings() {
-      const panel = document.getElementById("settingsPanel");
-      panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
-    }
-  </script>
-</body>
-</html>
+        "Каждый день — новый шанс.",
+        "Никогда не теряйте из виду свои цели.",
+        "Каждое великое достижение начинается с маленького шага.",
+        "Величайшая слава в жизни заключается не в том, чтобы никогда не падать, а в том, чтобы подниматься каждый раз, когда падаешь.",
+        "Победа приходит к тем, кто упорствует, даже в самые трудные моменты.",
+        "Мечтайте о большем, потому что большие мечты двигают людей.",
+        "Сделайте первый шаг в долгом путешествии.",
+        "Никогда не прекращайте учиться, потому что жизнь никогда не прекратит учить.",
+        "Нет ничего невозможного, есть только другое решение.",
+        "Если хочешь победить, сначала поверь в себя.",
+        "Трудности существуют не для того, чтобы остановить вас, а для того, чтобы укрепить вас.",
+        "Препятствия существуют, чтобы укрепить вас, а не остановить.",
+        "Каждый день - это новый шанс
