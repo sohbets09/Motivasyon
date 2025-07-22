@@ -594,4 +594,124 @@
         "Если хочешь победить, сначала поверь в себя.",
         "Трудности существуют не для того, чтобы остановить вас, а для того, чтобы укрепить вас.",
         "Препятствия существуют, чтобы укрепить вас, а не остановить.",
-        "Каждый день - это новый шанс
+        "Каждый день - это новый шанс.",
+        "Никогда не теряйте из виду свои цели.",
+        "Великие дела рождаются из малых начал.",
+        "Самая большая слава в жизни заключается не в том, чтобы никогда не падать, а в том, чтобы подниматься каждый раз, когда падаешь.",
+        "Победа приходит к тем, кто упорствует даже в самые трудные времена.",
+        "Мечтайте о великом, потому что великие мечты движут людьми.",
+        "Сделайте первый шаг долгого пути.",
+        "Никогда не переставайте учиться, потому что жизнь никогда не перестанет учить.",
+        "Нет ничего невозможного, есть только другое решение.",
+        "Если вы хотите победить, сначала поверьте в себя.",
+        "Трудности предназначены не для того, чтобы остановить вас, а для того, чтобы укрепить.",
+        "Пересоздавайте себя каждый день.",
+        "Никогда не отказывайтесь от своих целей.",
+        "Каждый маленький шаг — это движение к большой цели."
+      ]
+    };
+
+    let current = 0;
+    let currentLang = 'tk';
+    const body = document.body;
+    const titleElement = document.getElementById("title");
+    const quoteBoxElement = document.getElementById("quoteBox");
+    const nextButtonElement = document.getElementById("nextBtn");
+    const settingsPanelElement = document.getElementById("settingsPanel");
+    const headerElement = document.querySelector("header");
+
+    document.addEventListener('DOMContentLoaded', () => {
+      setLanguage('tk');
+      headerElement.style.animationPlayState = 'running';
+      setTimeout(() => {
+        titleElement.style.animationPlayState = 'running';
+        titleElement.style.opacity = 1;
+      }, 500);
+      setTimeout(() => {
+        quoteBoxElement.style.animationPlayState = 'running';
+        quoteBoxElement.style.opacity = 1;
+        quoteBoxElement.style.transform = 'scale(1)';
+      }, 900);
+      setTimeout(() => {
+        nextButtonElement.style.animationPlayState = 'running';
+        nextButtonElement.style.opacity = 1;
+        nextButtonElement.style.transform = 'translateY(0)';
+      }, 1300);
+      setTimeout(() => {
+        const footerElement = document.querySelector('footer');
+        footerElement.style.animationPlayState = 'running';
+        footerElement.style.opacity = 1;
+        footerElement.style.transform = 'translateY(0)';
+      }, 1700);
+    });
+
+    function nextQuote() {
+      quoteBoxElement.classList.remove("quote-box");
+      void quoteBoxElement.offsetWidth; 
+      quoteBoxElement.classList.add("quote-box");
+      quoteBoxElement.style.animation = 'none'; 
+      setTimeout(() => {
+        quoteBoxElement.style.animation = 'scaleUp 1s ease-out forwards, glow 2.5s infinite alternate, fadeInQuote 1s ease-out forwards';
+        current = (current + 1) % quotes[currentLang].length;
+        quoteBoxElement.textContent = quotes[currentLang][current];
+      }, 50); 
+    }
+
+    function setTheme(type) {
+      const body = document.body;
+      let newBackground;
+      let newColor;
+
+      if (type === 'girl') {
+        newBackground = 'linear-gradient(135deg, #ffe6f0, #ffc0cb, #ffe6f0)';
+        newColor = '#3a000d';
+      } else if (type === 'boy') {
+        newBackground = 'linear-gradient(135deg, #001f3f, #005f9f, #001f3f)';
+        newColor = '#fff';
+      } else { 
+        newBackground = 'linear-gradient(135deg, #0a0a0a, #1a1a1a, #0a0a0a)';
+        newColor = '#e0e0e0';
+      }
+
+      body.style.background = newBackground;
+      body.style.color = newColor;
+    }
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      current = 0;
+      document.getElementById("quoteBox").textContent = quotes[lang][current];
+      const titleMap = {
+        tk: "Motivasion Sözleri",
+        tr: "Motivasyon Sözleri",
+        en: "Motivational Quotes",
+        ru: "Мотивационные Цитаты"
+      };
+      const btnMap = {
+        tk: "Indiki sözi üýtget",
+        tr: "Sonraki sözü değiştir",
+        en: "Next quote",
+        ru: "Следующая цитата"
+      };
+      document.getElementById("title").textContent = titleMap[lang];
+      document.getElementById("nextBtn").textContent = btnMap[lang];
+    }
+
+    function toggleSettings() {
+      const panel = document.getElementById("settingsPanel");
+      if (panel.style.display === 'block') {
+        panel.classList.add('hidden');
+        panel.addEventListener('animationend', function handler() {
+          panel.style.display = 'none';
+          panel.classList.remove('hidden');
+          panel.removeEventListener('animationend', handler);
+        });
+      } else {
+        panel.style.display = 'block';
+        panel.classList.remove('hidden');
+      }
+    }
+  </script>
+</body>
+</html>
+      
