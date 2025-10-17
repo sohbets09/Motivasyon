@@ -143,7 +143,7 @@
     }
 
 
-    .theme-button, .lang-button {
+    .theme-button, .lang-button, .fav-button {
       display: block;
       margin: 10px 0; 
       padding: 12px 22px;
@@ -160,8 +160,15 @@
       opacity: 0;
     }
 
+    .fav-button {
+        background: linear-gradient(to bottom right, #ff9933, #ffcc66); 
+        color: #331a00; 
+        box-shadow: 0 0 15px rgba(255, 153, 51, 0.7);
+    }
+    
     .settings.hidden .theme-button,
-    .settings.hidden .lang-button {
+    .settings.hidden .lang-button,
+    .settings.hidden .fav-button {
       animation: slideOutSettings 0.3s ease-in-out forwards;
     }
 
@@ -175,7 +182,7 @@
       to { opacity: 0; transform: translateX(-20px); }
     }
 
-    .theme-button:hover, .lang-button:hover {
+    .theme-button:hover, .lang-button:hover, .fav-button:hover {
       transform: scale(1.03);
       box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
     }
@@ -260,9 +267,20 @@
       to { box-shadow: 0 0 40px rgba(0, 255, 255, 0.9), 0 0 65px rgba(0, 255, 255, 0.7); }
     }
 
+    /* Button Container Styling */
+    .button-container {
+        margin-top: 60px; 
+        margin-bottom: 40px;
+        display: flex; 
+        gap: 20px; 
+        justify-content: center; 
+        z-index: 1;
+        animation: fadeInUpButton 1s ease-out 1.4s forwards;
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    
     .next-button {
-      margin-top: 60px; 
-      margin-bottom: 40px;
       padding: 18px 35px; 
       border: none;
       border-radius: 40px;
@@ -275,9 +293,7 @@
       transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
       position: relative;
       overflow: hidden;
-      animation: pulseButton 2.5s infinite alternate, fadeInUpButton 1s ease-out 1.4s forwards; 
-      opacity: 0;
-      transform: translateY(20px);
+      animation: pulseButton 2.5s infinite alternate; 
     }
 
     @keyframes fadeInUpButton {
@@ -309,6 +325,149 @@
     .next-button:hover::before {
       left: 110%;
     }
+    
+    /* Share Button Specific Styles (Neon Magenta) */
+    .share-button {
+        background: #ff00ff; 
+        box-shadow: 0 0 20px rgba(255, 0, 255, 0.8); 
+        animation: pulseButtonShare 2.5s infinite alternate; 
+    }
+    
+    @keyframes pulseButtonShare {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(255, 0, 255, 0.8); }
+      50% { transform: scale(1.03); box-shadow: 0 0 30px rgba(255, 0, 255, 0.9); }
+    }
+    
+    .share-button:hover {
+      background: #e600e6;
+      box-shadow: 0 0 30px rgba(255, 0, 255, 0.95);
+    }
+
+    /* Save Button Specific Styles (Neon Yellow) */
+    .save-button {
+        background: #ffff00; 
+        color: #333;
+        box-shadow: 0 0 20px rgba(255, 255, 0, 0.8); 
+        animation: pulseButtonSave 2.5s infinite alternate; 
+    }
+    
+    @keyframes pulseButtonSave {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(255, 255, 0, 0.8); }
+      50% { transform: scale(1.03); box-shadow: 0 0 30px rgba(255, 255, 0, 0.9); }
+    }
+    
+    .save-button:hover {
+      background: #e6e600;
+      box-shadow: 0 0 30px rgba(255, 255, 0, 0.95);
+    }
+    
+    /* New: Favorites Modal/Panel */
+    .favorites-panel {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        backdrop-filter: blur(15px);
+        z-index: 2000;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        padding: 40px 20px;
+        animation: fadeInPanel 0.4s ease-out forwards;
+    }
+    
+    @keyframes fadeInPanel {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    .favorites-panel h2 {
+        font-size: 2.5rem;
+        color: #ffcc66;
+        text-shadow: 0 0 15px #ffcc66;
+        margin-bottom: 30px;
+    }
+    
+    .favorites-list {
+        width: 100%;
+        max-width: 800px;
+        max-height: 70%;
+        overflow-y: auto;
+        padding: 10px;
+    }
+    
+    .favorites-list::-webkit-scrollbar {
+        width: 8px;
+    }
+    .favorites-list::-webkit-scrollbar-thumb {
+        background: #ffcc66;
+        border-radius: 10px;
+    }
+    
+    .favorite-item {
+        background: rgba(255, 204, 102, 0.1);
+        border: 2px solid #ffcc66;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 15px;
+        font-size: 1.1rem;
+        font-weight: 400;
+        color: #fffae6;
+        position: relative;
+        transition: transform 0.2s;
+    }
+    
+    .favorite-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0 10px rgba(255, 204, 102, 0.5);
+    }
+    
+    .delete-fav-btn {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background: none;
+        border: none;
+        color: #ff9933;
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: color 0.2s;
+        line-height: 1;
+        padding: 5px;
+    }
+    
+    .delete-fav-btn:hover {
+        color: #ff0000;
+        transform: scale(1.1);
+    }
+    
+    .close-favorites-btn {
+        margin-top: 30px;
+        padding: 15px 30px;
+        background: #ffcc66;
+        color: #333;
+        border: none;
+        border-radius: 40px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background 0.2s, transform 0.2s;
+    }
+    
+    .close-favorites-btn:hover {
+        background: #ffb31a;
+        transform: scale(1.05);
+    }
+
+    .empty-message {
+        color: #ffcc66;
+        font-size: 1.5rem;
+        text-align: center;
+        margin-top: 50px;
+    }
+
 
     footer {
       margin-top: auto;
@@ -361,7 +520,7 @@
         padding: 20px;
         width: 200px;
       }
-      .theme-button, .lang-button {
+      .theme-button, .lang-button, .fav-button {
         width: 100%;
         font-size: 0.95rem;
         padding: 10px 20px;
@@ -376,10 +535,21 @@
         max-width: 80%;
         min-height: 130px;
       }
+      .button-container {
+        flex-direction: column; 
+        gap: 15px;
+        margin-top: 55px;
+      }
       .next-button {
         padding: 16px 30px;
         font-size: 1.1rem;
-        margin-top: 55px;
+      }
+      .favorites-panel h2 {
+        font-size: 2rem;
+      }
+      .favorite-item {
+          font-size: 1rem;
+          padding: 15px;
       }
       footer {
         gap: 25px;
@@ -411,7 +581,7 @@
         width: 180px;
         padding: 15px;
       }
-      .theme-button, .lang-button {
+      .theme-button, .lang-button, .fav-button {
         font-size: 0.9rem;
         padding: 9px 18px;
       }
@@ -425,10 +595,13 @@
         min-height: 110px;
         max-width: 90%;
       }
+      .button-container {
+        gap: 12px;
+        margin-top: 50px;
+      }
       .next-button {
         padding: 14px 28px;
         font-size: 1rem;
-        margin-top: 50px;
       }
       footer {
         gap: 20px;
@@ -456,11 +629,25 @@
     <button class="lang-button lang-tr" onclick="setLanguage('tr')">Türkçe</button>
     <button class="lang-button lang-en" onclick="setLanguage('en')">English</button>
     <button class="lang-button lang-ru" onclick="setLanguage('ru')">Русский</button>
+    <hr>
+    <button class="fav-button" onclick="showFavorites()">⭐ Kaydedilenler</button>
+  </div>
+  
+  <div class="favorites-panel" id="favoritesPanel">
+    <h2 id="favTitle">Kaydedilen Sözler</h2>
+    <div class="favorites-list" id="favoritesList">
+      </div>
+    <button class="close-favorites-btn" onclick="hideFavorites()">Kapat</button>
   </div>
 
   <h1 id="title">Motivasion Sözleri</h1>
   <div class="quote-box" id="quoteBox">Başlamak üçin ajaýyp bolmagyň geregi ýok.</div>
-  <button class="next-button" onclick="nextQuote()" id="nextBtn">Indiki sözi üýtget</button>
+  
+  <div class="button-container">
+    <button class="next-button" onclick="nextQuote()" id="nextBtn">Indiki sözi üýtget</button>
+    <button class="next-button share-button" onclick="shareQuote()" id="shareBtn">Paýlaş 🚀</button>
+    <button class="next-button save-button" onclick="saveQuote()" id="saveBtn">Kaydet ⭐</button>
+  </div>
 
   <footer>
     <a href="https://www.instagram.com/sohbets09?igsh=MWIzMzY5c2NibWY5cQ==" target="_blank">
@@ -496,7 +683,7 @@
         "Maksadyňyzdan gözüňizi aýyrmaň.",
         "Uly işler kiçi başlangyçlardan dogýar.",
         "Durmuşda iň uly şan-şöhrat hiç wagt ýykylmazlykda däl, gaýtam her gaçanyňda täzeden galmakdadyr.",
-        "Ýeňiş, iň çetin pursatlarda-da dowam edenlere gelýär.",
+        "Ýeňiş, iň zorlu pursatlarda-da dowam edenlere gelýär.",
         "Uly hyýal ediň, sebäbi uly hyýallar adamlary herekete getirýär.",
         "Uzak ýoluň ilkinji ädimini ädiň.",
         "Öwrenmegi hiç wagt goýmaň, sebäbi durmuş öwretmegi hiç wagt goýmaz.",
@@ -613,30 +800,82 @@
 
     let current = 0;
     let currentLang = 'tk';
-    const body = document.body;
     const titleElement = document.getElementById("title");
     const quoteBoxElement = document.getElementById("quoteBox");
     const nextButtonElement = document.getElementById("nextBtn");
+    const shareBtn = document.getElementById("shareBtn");
+    const saveBtn = document.getElementById("saveBtn"); // New: Save Button
     const settingsPanelElement = document.getElementById("settingsPanel");
+    const favoritesPanelElement = document.getElementById("favoritesPanel"); // New: Favorites Panel
+    const favoritesListElement = document.getElementById("favoritesList"); // New: Favorites List
     const headerElement = document.querySelector("header");
+
+    // Translation map for copy/save feedback
+    const copyFeedback = {
+        tk: "Göçürildi! ✅",
+        tr: "Kopyalandı! ✅",
+        en: "Copied! ✅",
+        ru: "Скопировано! ✅"
+    };
+
+    const saveFeedback = {
+        tk: "Ýatda saklanyldy! ⭐",
+        tr: "Kaydedildi! ⭐",
+        en: "Saved! ⭐",
+        ru: "Сохранено! ⭐"
+    };
+    
+    const alreadySavedFeedback = {
+        tk: "Eýýäm ýatda saklanan!",
+        tr: "Zaten Kayıtlı!",
+        en: "Already saved!",
+        ru: "Уже сохранено!"
+    };
+
+    const favTitleMap = {
+        tk: "Ýatda saklanan sözler",
+        tr: "Kaydedilen Sözler",
+        en: "Saved Quotes",
+        ru: "Сохраненные Цитаты"
+    };
+
+    const emptyFavMap = {
+        tk: "Häzirlikçe hiç hili söz ýok. Kaydet!",
+        tr: "Henüz kaydedilen söz yok. Hemen kaydet!",
+        en: "No saved quotes yet. Save one now!",
+        ru: "Пока нет сохраненных цитат. Сохраните сейчас!"
+    };
+    
+    const closeBtnMap = {
+        tk: "Ýap",
+        tr: "Kapat",
+        en: "Close",
+        ru: "Закрыть"
+    };
+
 
     document.addEventListener('DOMContentLoaded', () => {
       setLanguage('tk');
       headerElement.style.animationPlayState = 'running';
+      
       setTimeout(() => {
         titleElement.style.animationPlayState = 'running';
         titleElement.style.opacity = 1;
       }, 500);
+      
       setTimeout(() => {
         quoteBoxElement.style.animationPlayState = 'running';
         quoteBoxElement.style.opacity = 1;
         quoteBoxElement.style.transform = 'scale(1)';
       }, 900);
+      
       setTimeout(() => {
-        nextButtonElement.style.animationPlayState = 'running';
-        nextButtonElement.style.opacity = 1;
-        nextButtonElement.style.transform = 'translateY(0)';
+        const buttonContainer = document.querySelector('.button-container');
+        buttonContainer.style.animationPlayState = 'running';
+        buttonContainer.style.opacity = 1;
+        buttonContainer.style.transform = 'translateY(0)';
       }, 1300);
+      
       setTimeout(() => {
         const footerElement = document.querySelector('footer');
         footerElement.style.animationPlayState = 'running';
@@ -656,6 +895,117 @@
         quoteBoxElement.textContent = quotes[currentLang][current];
       }, 50); 
     }
+    
+    // New: Save Quote Function
+    function saveQuote() {
+        const quoteText = quoteBoxElement.textContent.trim();
+        const key = `favorites_${currentLang}`;
+        let favorites = JSON.parse(localStorage.getItem(key)) || [];
+
+        // Check if quote already exists
+        if (favorites.includes(quoteText)) {
+            showFeedback(alreadySavedFeedback[currentLang], saveBtn);
+            return;
+        }
+
+        favorites.push(quoteText);
+        localStorage.setItem(key, JSON.stringify(favorites));
+
+        showFeedback(saveFeedback[currentLang], saveBtn);
+    }
+    
+    // New: Load and Display Favorites
+    function loadFavorites() {
+        const key = `favorites_${currentLang}`;
+        const favorites = JSON.parse(localStorage.getItem(key)) || [];
+        favoritesListElement.innerHTML = ''; // Clear existing list
+
+        if (favorites.length === 0) {
+            favoritesListElement.innerHTML = `<div class="empty-message">${emptyFavMap[currentLang]}</div>`;
+            return;
+        }
+
+        favorites.forEach((quote, index) => {
+            const item = document.createElement('div');
+            item.className = 'favorite-item';
+            item.innerHTML = `
+                ${quote}
+                <button class="delete-fav-btn" onclick="deleteFavorite('${quote.replace(/'/g, "\\'")}')">✖</button>
+            `;
+            favoritesListElement.appendChild(item);
+        });
+    }
+
+    // New: Delete Favorite Quote
+    function deleteFavorite(quoteText) {
+        const key = `favorites_${currentLang}`;
+        let favorites = JSON.parse(localStorage.getItem(key)) || [];
+
+        favorites = favorites.filter(q => q !== quoteText);
+        localStorage.setItem(key, JSON.stringify(favorites));
+        
+        loadFavorites(); // Reload the list after deletion
+    }
+    
+    // New: Show Favorites Panel
+    function showFavorites() {
+        toggleSettings(); // Close settings panel first
+        loadFavorites(); // Load and display the quotes
+        
+        // Update panel titles based on current language
+        document.getElementById('favTitle').textContent = favTitleMap[currentLang];
+        document.querySelector('.close-favorites-btn').textContent = closeBtnMap[currentLang];
+        
+        favoritesPanelElement.style.display = 'flex';
+    }
+
+    // New: Hide Favorites Panel
+    function hideFavorites() {
+        favoritesPanelElement.style.display = 'none';
+    }
+
+
+    // Helper for visual feedback
+    function showFeedback(message, buttonElement) {
+      const originalText = buttonElement.innerHTML; 
+      buttonElement.innerHTML = message;
+      setTimeout(() => {
+          buttonElement.innerHTML = originalText;
+      }, 1800);
+    }
+    
+    function shareQuote() {
+      const quoteText = quoteBoxElement.textContent.trim();
+      const shareTitle = titleElement.textContent.trim(); 
+      const shareText = `"${quoteText}" - ${shareTitle} | MetaFlow`;
+
+      // 1. Web Share API (for mobile/modern browser sharing)
+      if (navigator.share) {
+        navigator.share({
+          title: shareTitle,
+          text: shareText,
+          url: window.location.href 
+        }).catch((error) => {
+          // If the user cancelled or sharing failed, fall back to copy
+          if (error.name !== 'AbortError') { 
+             navigator.clipboard.writeText(shareText).then(() => {
+                showFeedback(copyFeedback[currentLang], shareBtn);
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+          }
+        });
+      } else {
+        // 2. Fallback: Copy to Clipboard
+        navigator.clipboard.writeText(shareText).then(() => {
+            showFeedback(copyFeedback[currentLang], shareBtn);
+        }).catch(err => {
+            console.error('Could not copy text: ', err);
+            alert(`Göçürmek üçin gollanmaňyz ýok. El bilen göçüriň:\n\n${shareText}`);
+        });
+      }
+    }
+
 
     function setTheme(type) {
       const body = document.body;
@@ -681,20 +1031,55 @@
       currentLang = lang;
       current = 0;
       document.getElementById("quoteBox").textContent = quotes[lang][current];
+      
       const titleMap = {
         tk: "Motivasion Sözleri",
         tr: "Motivasyon Sözleri",
         en: "Motivational Quotes",
         ru: "Мотивационные Цитаты"
       };
+      
       const btnMap = {
         tk: "Indiki sözi üýtget",
         tr: "Sonraki sözü değiştir",
         en: "Next quote",
         ru: "Следующая цитата"
       };
+      
+      const shareBtnMap = {
+        tk: "Paýlaş 🚀",
+        tr: "Paylaş 🚀",
+        en: "Share 🚀",
+        ru: "Поделиться 🚀"
+      };
+      
+      const saveBtnMap = {
+        tk: "Ýatda sakla ⭐",
+        tr: "Kaydet ⭐",
+        en: "Save ⭐",
+        ru: "Сохранить ⭐"
+      };
+      
+      const settingsToggleMap = {
+        tk: "⚙️ Sazlamalar",
+        tr: "⚙️ Ayarlar",
+        en: "⚙️ Settings",
+        ru: "⚙️ Настройки"
+      };
+      
+      const favBtnMap = {
+        tk: "⭐ Ýatda saklananlar",
+        tr: "⭐ Kaydedilenler",
+        en: "⭐ Favorites",
+        ru: "⭐ Избранное"
+      };
+      
       document.getElementById("title").textContent = titleMap[lang];
       document.getElementById("nextBtn").textContent = btnMap[lang];
+      document.getElementById("shareBtn").textContent = shareBtnMap[lang];
+      document.getElementById("saveBtn").textContent = saveBtnMap[lang];
+      document.querySelector('.settings-toggle').textContent = settingsToggleMap[lang];
+      document.querySelector('.fav-button').textContent = favBtnMap[lang];
     }
 
     function toggleSettings() {
@@ -714,4 +1099,3 @@
   </script>
 </body>
 </html>
-      
